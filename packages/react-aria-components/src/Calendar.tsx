@@ -477,7 +477,9 @@ function CalendarCell({date, ...otherProps}: CalendarCellProps, ref: ForwardedRe
   );
 
   let {hoverProps, isHovered} = useHover({...otherProps, isDisabled: states.isDisabled});
-  let {focusProps, isFocusVisible} = useFocusRing();
+  let {focusProps, isFocusVisible} = useFocusRing({tabIndex: buttonProps.tabIndex});
+  // A possible solution but hides the root cause
+  // isFocusVisible &&= states.isFocused;
   let isOutsideMonth = !isSameMonth(currentMonth, date);
   let isSelectionStart = false;
   let isSelectionEnd = false;

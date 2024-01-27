@@ -11,10 +11,20 @@
  */
 
 import {Button, Calendar, CalendarCell, CalendarGrid, Heading, RangeCalendar} from 'react-aria-components';
-import React from 'react';
+import React, {CSSProperties} from 'react';
 
 export default {
   title: 'React Aria Components'
+};
+
+const cellStyle = ({isSelected, isOutsideMonth, isFocusVisible}):CSSProperties => {
+  let background = '';
+  if (isSelected) {
+    background = 'blue';
+  } else if (isFocusVisible) {
+    background = 'gray';
+  }
+  return {display: isOutsideMonth ? 'none' : '', textAlign: 'center', cursor: 'default', background};
 };
 
 export const CalendarExample = () => (
@@ -25,7 +35,7 @@ export const CalendarExample = () => (
       <Button slot="next">&gt;</Button>
     </div>
     <CalendarGrid style={{width: '100%'}}>
-      {date => <CalendarCell date={date} style={({isSelected, isOutsideMonth}) => ({display: isOutsideMonth ? 'none' : '', textAlign: 'center', cursor: 'default', background: isSelected ? 'blue' : ''})} />}
+      {date => <CalendarCell date={date} style={cellStyle} />}
     </CalendarGrid>
   </Calendar>
 );
@@ -39,10 +49,10 @@ export const CalendarMultiMonth = () => (
     </div>
     <div style={{display: 'flex', gap: 20}}>
       <CalendarGrid style={{flex: 1}}>
-        {date => <CalendarCell date={date} style={({isSelected, isOutsideMonth}) => ({display: isOutsideMonth ? 'none' : '', textAlign: 'center', cursor: 'default', background: isSelected ? 'blue' : ''})} />}
+        {date => <CalendarCell date={date} style={cellStyle} />}
       </CalendarGrid>
       <CalendarGrid style={{flex: 1}} offset={{months: 1}}>
-        {date => <CalendarCell date={date} style={({isSelected, isOutsideMonth}) => ({display: isOutsideMonth ? 'none' : '', textAlign: 'center', cursor: 'default', background: isSelected ? 'blue' : ''})} />}
+        {date => <CalendarCell date={date} style={cellStyle} />}
       </CalendarGrid>
     </div>
   </Calendar>
@@ -56,7 +66,7 @@ export const RangeCalendarExample = () => (
       <Button slot="next">&gt;</Button>
     </div>
     <CalendarGrid style={{width: '100%'}}>
-      {date => <CalendarCell date={date} style={({isSelected, isOutsideMonth}) => ({display: isOutsideMonth ? 'none' : '', textAlign: 'center', cursor: 'default', background: isSelected ? 'blue' : ''})} />}
+      {date => <CalendarCell date={date} style={cellStyle} />}
     </CalendarGrid>
   </RangeCalendar>
 );

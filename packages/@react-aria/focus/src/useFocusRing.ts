@@ -1,6 +1,6 @@
 import {DOMAttributes} from '@react-types/shared';
 import {isFocusVisible, useFocus, useFocusVisibleListener, useFocusWithin} from '@react-aria/interactions';
-import {useCallback, useRef, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 export interface AriaFocusRingProps {
   /**
@@ -15,7 +15,8 @@ export interface AriaFocusRingProps {
   isTextInput?: boolean,
 
   /** Whether the element will be auto focused. */
-  autoFocus?: boolean
+  autoFocus?: boolean,
+  tabIndex?: number | string
 }
 
 export interface FocusRingAria {
@@ -38,7 +39,8 @@ export function useFocusRing(props: AriaFocusRingProps = {}): FocusRingAria {
   let {
     autoFocus = false,
     isTextInput,
-    within
+    within,
+    tabIndex
   } = props;
   let state = useRef({
     isFocused: false,
@@ -55,6 +57,12 @@ export function useFocusRing(props: AriaFocusRingProps = {}): FocusRingAria {
     updateState();
   }, [updateState]);
 
+  useEffect(() => {
+    if (tabIndex === null && isFocused) {
+      onFocusChange(false);
+    }
+  }, [tabIndex, onFocusChange, isFocused]);
+
   useFocusVisibleListener((isFocusVisible) => {
     state.current.isFocusVisible = isFocusVisible;
     updateState();
@@ -70,6 +78,9 @@ export function useFocusRing(props: AriaFocusRingProps = {}): FocusRingAria {
     onFocusWithinChange: onFocusChange
   });
 
+  if (tabIndex === null) {
+    focusProps = undefined;
+  }
   return {
     isFocused,
     isFocusVisible: isFocusVisibleState,

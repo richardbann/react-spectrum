@@ -243,7 +243,7 @@ function ListView<T extends object>(props: SpectrumListViewProps<T>, ref: DOMRef
             }
             layout={layout}
             collection={collection}
-            transitionDuration={isLoading ? 160 : 220}>
+            transitionDuration={isLoading ? 160 : 1000}>
             {(type, item) => {
               if (type === 'item') {
                 return (

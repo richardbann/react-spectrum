@@ -336,6 +336,7 @@ export class Virtualizer<T extends object, V, W> {
 
   getReusableView(layoutInfo: LayoutInfo): ReusableView<T, V> {
     let content = this.getItem(layoutInfo.key);
+    if (!content) {return null;}
     let {reuseType} = this._getReuseType(layoutInfo, content);
 
     if (!this._reusableViews[reuseType]) {
@@ -572,8 +573,10 @@ export class Virtualizer<T extends object, V, W> {
 
     for (let key of this._visibleLayoutInfos.keys()) {
       let view = this._visibleViews.get(key);
-      this._children.delete(view);
-      this._children.add(view);
+      if (view) {
+        this._children.delete(view);
+        this._children.add(view);
+      }
     }
   }
 
@@ -758,6 +761,7 @@ export class Virtualizer<T extends object, V, W> {
     }
 
     for (let key of toAdd.keys()) {
+      // if (this._collection.getItem(key) === undefined) { continue; }
       let layoutInfo = visibleLayoutInfos.get(key);
       let view: ReusableView<T, V> | void;
 
@@ -781,6 +785,7 @@ export class Virtualizer<T extends object, V, W> {
       if (!view) {
         // Create or reuse a view for this row
         view = this.getReusableView(layoutInfo);
+        if (!view) { continue; }
 
         // Add the view to the DOM if needed
         if (!removed.has(view)) {

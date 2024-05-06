@@ -476,6 +476,33 @@ export const RemoveListItems = {
   )
 };
 
+export const FastChangingItems = {
+  render: (args) => (
+    <FastChangingDemo {...args} />
+  )
+};
+
+function FastChangingDemo(props) {
+  const [items, setItems] = useState([{id: 0, name: `${0}`}]);
+  let id = React.useRef(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      id.current += 1;
+      setItems((items) => [...items, {id: id.current, name: `${id.current}`}]);
+      if (id.current === 200) {clearInterval(interval);}
+    }, 200);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  return (
+    <ListView width="250px" height="250px" items={items} aria-label="ListView example with changing items" {...props}>
+      {(item:{id:number, name:string}) => <Item key={item.id}>{item.name}</Item>}
+    </ListView>
+  );
+}
+
 function Demo(props) {
   let [items, setItems] = useState<{key: number, label: string}[]>([
     {key: 1, label: 'utilities'}

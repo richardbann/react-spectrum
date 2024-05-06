@@ -761,7 +761,6 @@ export class Virtualizer<T extends object, V, W> {
     }
 
     for (let key of toAdd.keys()) {
-      // if (this._collection.getItem(key) === undefined) { continue; }
       let layoutInfo = visibleLayoutInfos.get(key);
       let view: ReusableView<T, V> | void;
 

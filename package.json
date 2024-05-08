@@ -56,7 +56,8 @@
     "packages/react-aria",
     "packages/react-aria-components",
     "packages/tailwindcss-react-aria-components",
-    "packages/*/*"
+    "packages/*/*",
+    "packages/playground"
   ],
   "devDependencies": {
     "@actions/core": "^1.1.0",
